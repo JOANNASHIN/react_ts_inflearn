@@ -1,5 +1,5 @@
 interface PhoneNumberDictionary {
-  [phone: string]: {
+  [phone: string]: { //phone은 의미가 크지 않음!! 임시 변수같은 느낌
     num: number;
   };
 }
@@ -10,11 +10,15 @@ interface Contact {
   phones: PhoneNumberDictionary;
 }
 
+enum PhoneType {
+  Home = "home",
+  Office = "office",
+  Studio = "studio",
+}
+
 // api
-// TODO: 아래 함수의 반환 타입을 지정해보세요.
-function fetchContacts() {
-  // TODO: 아래 변수의 타입을 지정해보세요.
-  const contacts = [
+function fetchContacts(): Promise<Contact[]>  {
+  const contacts: Contact[] = [
     {
       name: 'Tony',
       address: 'Malibu',
@@ -56,11 +60,11 @@ function fetchContacts() {
 
 // main
 class AddressBook {
-  // TODO: 아래 변수의 타입을 지정해보세요.
-  contacts = [];
+  contacts: Contact[] = [];
 
   constructor() {
     this.fetchData();
+
   }
 
   fetchData() {
@@ -69,30 +73,38 @@ class AddressBook {
     });
   }
 
-  /* TODO: 아래 함수들의 파라미터 타입과 반환 타입을 지정해보세요 */
-  findContactByName(name) {
+  findContactByName(name: string): Contact[] {
     return this.contacts.filter(contact => contact.name === name);
   }
 
-  findContactByAddress(address) {
+  findContactByAddress(address: string):Contact[] {
     return this.contacts.filter(contact => contact.address === address);
   }
 
-  findContactByPhone(phoneNumber, phoneType: string) {
+  // findContactByPhone(phoneNumber: number, phoneType: string):Contact[] {
+  //   return this.contacts.filter(
+  //     contact => contact.phones[phoneType].num === phoneNumber
+  //   );
+  // }
+
+  //오타날 경우 대비해서 enum으로 대비!!! !!!!
+  //사용할때도 findContactByPhone(PhoneType.Home)
+  findContactByPhone(phoneNumber: number, phoneType: PhoneType):Contact[] {
     return this.contacts.filter(
       contact => contact.phones[phoneType].num === phoneNumber
     );
   }
 
-  addContact(contact) {
+
+  addContact(contact: Contact): void {
     this.contacts.push(contact);
   }
 
-  displayListByName() {
+  displayListByName(): string[] {
     return this.contacts.map(contact => contact.name);
   }
 
-  displayListByAddress() {
+  displayListByAddress(): string[] {
     return this.contacts.map(contact => contact.address);
   }
   /* ------------------------------------------------ */

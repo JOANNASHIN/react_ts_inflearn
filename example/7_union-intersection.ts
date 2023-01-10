@@ -38,3 +38,10 @@ function askSomeone(someone: Developer | Person) {
   someone.name; // O
   someone.age; // X
 }
+
+
+
+function askSomeone(someone: Developer & Person) {
+  someone.name; // O
+  someone.age; // X
+}
